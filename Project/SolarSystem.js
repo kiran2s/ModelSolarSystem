@@ -96,13 +96,13 @@ var p4Diffuse = vec4(0.65, 0.3, 0.0, 1.0);
 var p4Specular = vec4(0.0, 0.0, 0.0, 0.0);
 var p4Shininess = 0.0;
 
-// Moon colors (extra credit)
+// Moon colors
 var moonAmbient = vec4(0.5, 0.0, 0.3, 1.0);
 var moonDiffuse = vec4(0.7, 0.0, 0.5, 1.0);
 var moonSpecular = vec4(0.7, 0.0, 1.0, 1.0);
 var moonShininess = 20.0;
 
-// Toggle attach/detach to green (2nd) planet (extra credit)
+// Toggle attach/detach to green (2nd) planet
 var toggleAttach = false;
 
 var isSun = false;
@@ -143,8 +143,7 @@ var viewMatrix;
 var modelViewMatrix;
 var projectionMatrix;
 
-/*  The implementation for the following 3 functions was 
-	taken from the course textbook.						 */
+// Functions to create a sphere
 function addTriangleToBuffers(a, b, c, shading)
 {
 	// Points
@@ -410,14 +409,14 @@ function render()
 	renderPlanet(p4Ambient, p4Diffuse, p4Specular, p4Shininess, 
 				 p4Speed, p4OrbitRadius, p4Diam, index );
 				 
-	// Render moon (extra credit)
+	// Render moon
 	// Get lighting matrix products
 	ambientProduct = mult(lightAmbient, moonAmbient);
 	diffuseProduct = mult(lightDiffuse, moonDiffuse);
 	specularProduct = mult(lightSpecular, moonSpecular);
 	gl.uniform4fv(ambientProductLoc, flatten(ambientProduct));
 	gl.uniform4fv(diffuseProductLoc, flatten(diffuseProduct));
-	gl.uniform4fv(specularProductLoc, flatten(specularProduct));	
+	gl.uniform4fv(specularProductLoc, flatten(specularProduct));
 	gl.uniform4fv(lightPositionLoc, flatten(lightPosition));
 	gl.uniform1f(shininessLoc, moonShininess);
 	// Have the moon spin about its axis for fun
