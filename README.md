@@ -28,6 +28,8 @@ Q           - make horizontal FOV narrower
 
 E           - make horizontal FOV wider
 
+While attached to the 2nd planet, the user can look around using the left and right arrow keys.
+
 ## Details
 - A point light source is located at the sun.
 
@@ -41,5 +43,5 @@ E           - make horizontal FOV wider
 covered in water.
 
 - The fourth planet is a medium complexity, Gouraud shaded sphere made to look dull, brownish-orange, and mud-covered.
-It has a small shiny red moon.
+Orbiting around it is a small shiny red moon.
 
