@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Model Solar System by Kiran Sivakumar</title>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+precision mediump float;
+precision mediump int;
+
+attribute vec4 vPosition;
+attribute vec4 vNormal;
+
+uniform vec4 vColor;
+varying vec4 fColor;
+varying vec3 N, L, E;
+uniform vec4 lightPosition;
+
+uniform bool isSun;
+uniform int shadingType;
+
+uniform mat4 viewMatrix;
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+
+uniform vec4 ambientProduct;
+uniform vec4 diffuseProduct;
+uniform vec4 specularProduct;
+uniform float shininess;
+
+void main()
+{
+	// Sun
+	if (isSun)
+	{
+		fColor = vColor;
+	}
+	// Flat shading or Gouraud shading
+	else if (shadingType == 0 || shadingType == 1)
+	{
+		// Get the current position vector in eye coordinates
+		vec3 objPos = (modelViewMatrix * vPosition).xyz;
+		// Get the light position in eye coordinates (only need the viewMatrix for this)
+		vec3 lightPos = (viewMatrix * lightPosition).xyz;
+		// Object-to-light-source vector
+		L = normalize(lightPos - objPos);
+		// Object-to-eye vector
+		E = -normalize(objPos);
+		// Normal vector
+		N = normalize((modelViewMatrix*vNormal).xyz);
+		// Halfway vector
+		vec3 H = normalize(L + E);
+		
+		// The following computed terms are for the illumination equation to
+		// finally determine color
+		vec4 ambient = ambientProduct;
+		
+		float Kd = max(dot(L, N), 0.0);
+		vec4 diffuse = Kd * diffuseProduct;
+		
+		float Ks = pow(max(dot(N, H), 0.0), shininess);
+		vec4 specular = Ks * specularProduct;
+		
+		if (dot(L, N) < 0.0)
+			specular = vec4(0.0, 0.0, 0.0, 1.0);	
+
+		fColor = ambient + diffuse + specular;
+		fColor.a = 1.0;
+	}
+	// Phong shading
+	else if (shadingType == 2)
+	{
+		vec3 objPos = (modelViewMatrix * vPosition).xyz;
+		vec3 lightPos = (viewMatrix * lightPosition).xyz;
+		L = normalize(lightPos - objPos);
+		E = -normalize(objPos);
+		N = normalize((modelViewMatrix*vNormal).xyz);
+	}
+	
+	gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+}
+
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+precision mediump int;
+
+varying vec4 fColor;
+varying vec3 N, L, E;
+
+uniform bool isSun;
+uniform int shadingType;
+
+uniform vec4 ambientProduct;
+uniform vec4 diffuseProduct;
+uniform vec4 specularProduct;
+uniform float shininess;
+
+void main()
+{
+	if (isSun)
+	{
+		gl_FragColor = fColor;
+	}
+	// Flat shading or Gouraud shading
+	else if (shadingType == 0 || shadingType == 1)
+	{
+		// All work was done in the vertex shader, so this is all we have to do here
+		gl_FragColor = fColor;
+	}
+	// Phong shading
+	else if (shadingType == 2)
+	{
+		// Compute terms for the illumination equation here in the fragment shader
+		vec4 fragColor;
+
+		vec3 H = normalize(L + E);
+		
+		vec4 ambient = ambientProduct;
+		
+		float Kd = max(dot(L, N), 0.0);
+		vec4 diffuse = Kd * diffuseProduct;
+		
+		float Ks = pow(max(dot(N, H), 0.0), shininess);
+		vec4 specular = Ks * specularProduct;
+		
+		if (dot(L, N) < 0.0)
+			specular = vec4(0.0, 0.0, 0.0, 1.0);
+			
+		fragColor = ambient + diffuse + specular;
+		fragColor.a = 1.0;
+
+		gl_FragColor = fragColor;
+	}
+}
+
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/InitShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="SolarSystem.js"></script>
+
+<body>
+<!--<canvas id="gl-canvas" width="960" height="540">-->
+<canvas id="gl-canvas" width="1280" height="720">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+   
+<br/>
+
+</body>
+</html>
