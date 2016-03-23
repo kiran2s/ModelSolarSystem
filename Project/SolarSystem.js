@@ -143,7 +143,6 @@ var viewMatrix;
 var modelViewMatrix;
 var projectionMatrix;
 
-//
 // Functions to create a sphere
 function addTriangleToBuffers(a, b, c, shading)
 {
