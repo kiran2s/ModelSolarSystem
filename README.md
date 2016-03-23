@@ -1,7 +1,9 @@
 # ModelSolarSystem
 
-Introductory graphics project modeling a simple solar system with one sun, four orbiting planets, and a small moon orbiting
-the fourth planet.
+Introductory graphics project using WebGL modeling a simple solar system with one sun, four orbiting planets, and a small moon orbiting the fourth planet.
+
+To run the project, locate the SolarSystem.html file in the Project folder and open it using either Google Chrome, Firefox, or
+Internet Explorer.
 
 ## Controls
 W           - move forward
