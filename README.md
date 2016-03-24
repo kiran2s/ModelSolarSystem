@@ -46,4 +46,3 @@ covered in water.
 
 - The fourth planet is a medium complexity, Gouraud shaded sphere made to look dull, brownish-orange, and mud-covered.
 Orbiting around it is a small shiny red moon.
-
